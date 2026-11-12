@@ -41,9 +41,9 @@ def doctor() -> None:
     venv = Path(sys.prefix)
     rows.append(("venv", str(venv), "ok" if (venv / "pyvenv.cfg").exists() else "warn"))
     try:
-        import mcp  # noqa: F401
+        import importlib.metadata as md
 
-        rows.append(("mcp", getattr(mcp, "__version__", "?"), "ok"))
+        rows.append(("mcp", md.version("mcp"), "ok"))
     except Exception as exc:  # noqa: BLE001
         rows.append(("mcp", type(exc).__name__, "missing"))
     docker = shutil.which("docker")
