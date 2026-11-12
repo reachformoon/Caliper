@@ -8,6 +8,9 @@ CLI：`cal` · 核心 Python 3.11+ · 默认零外部服务（SQLite + 进程内
 
 ## 当前状态
 
+> 接续工作请先读 [HANDOFF.md](HANDOFF.md)。
+
+
 骨架阶段（D0/D1）。完整 26 天计划见 `docs/README.md` 指向的定稿方案。
 
 ## 快速开始
