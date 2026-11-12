@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -12,6 +13,33 @@ from caliper import __version__
 
 app = typer.Typer(add_completion=False, help="Caliper: evidence-gated coding-agent harness")
 console = Console()
+
+
+def _find_docker() -> str | None:
+    found = shutil.which("docker")
+    if found:
+        return found
+    candidates = [
+        Path(os.environ.get("LOCALAPPDATA", "")) / "Programs" / "DockerDesktop" / "resources" / "bin" / "docker.exe",
+        Path("C:/Program Files/Docker/Docker/resources/bin/docker.exe"),
+    ]
+    for cand in candidates:
+        if cand.exists():
+            return str(cand)
+    return None
+
+
+def _read_env(path: Path = Path(".env")) -> dict[str, str]:
+    data: dict[str, str] = {}
+    if not path.exists():
+        return data
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        data[key.strip()] = value.strip()
+    return data
 
 
 def _stub(name: str, day: str) -> None:
@@ -46,10 +74,14 @@ def doctor() -> None:
         rows.append(("mcp", md.version("mcp"), "ok"))
     except Exception as exc:  # noqa: BLE001
         rows.append(("mcp", type(exc).__name__, "missing"))
-    docker = shutil.which("docker")
+    docker = _find_docker()
     rows.append(("docker", docker or "-", "ok" if docker else "missing"))
     env = Path(".env")
     rows.append((".env", str(env.resolve()) if env.exists() else "-", "ok" if env.exists() else "missing"))
+    values = _read_env(env)
+    key = values.get("OPENAI_API_KEY", "")
+    rows.append(("api key", "set" if key else "missing", "ok" if key else "missing"))
+    rows.append(("model", values.get("CALIPER_MODEL", "-"), "ok" if values.get("CALIPER_MODEL") else "warn"))
     table = Table(title="caliper doctor")
     table.add_column("item")
     table.add_column("value")
