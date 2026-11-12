@@ -1,5 +1,7 @@
 # Caliper
 
+[![ci](https://github.com/reachformoon/Caliper/actions/workflows/ci.yml/badge.svg)](https://github.com/reachformoon/Caliper/actions/workflows/ci.yml)
+
 > 一个轻量、可扩展的 coding-agent harness：**扩展能力默认关闭，只有通过评测闸门的能力才允许写进默认配置。**
 
 CLI：`cal` · 核心 Python 3.11+ · 默认零外部服务（SQLite + 进程内队列）
