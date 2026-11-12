@@ -16,3 +16,6 @@ dist/
 .dsh-ops/
 .d0-*.sh
 .d0-*.log
+.verify*.sh
+.docfix.sh
+.tmp-*
