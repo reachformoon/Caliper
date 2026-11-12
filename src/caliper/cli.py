@@ -158,6 +158,12 @@ def export(out: str = "web/public/data") -> None:
 
 
 def main() -> None:
+    # Windows CI 默认 cp1252 控制台会让中文输出抛 UnicodeEncodeError
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8")  # type: ignore[attr-defined]
+        except Exception:  # noqa: BLE001
+            pass
     app()
 
 
