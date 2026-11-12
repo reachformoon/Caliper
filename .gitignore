@@ -13,3 +13,6 @@ web/dist/
 *.egg-info/
 build/
 dist/
+.dsh-ops/
+.d0-*.sh
+.d0-*.log
