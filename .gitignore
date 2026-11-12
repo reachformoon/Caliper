@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.env
+.env.local
+results/
+.d0-*
+*.log
+node_modules/
+web/dist/

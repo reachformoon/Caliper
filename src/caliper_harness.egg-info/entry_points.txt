@@ -1,0 +1,2 @@
+[console_scripts]
+cal = caliper.cli:main
